@@ -25,7 +25,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       // Assuming response from the other service is returned to client
       return NextResponse.json({message:response.data},{status:200});
     } catch (error) {
-    //   console.error('Error submitting form:', error);
+      console.error('Error submitting form:', error);
     //   console.log(formData)
       return NextResponse.json({ error: 'Failed to submit form' },{status:500});
     }
