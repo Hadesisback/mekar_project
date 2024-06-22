@@ -50,5 +50,5 @@ jobs:
       - name: Build and start Frontend in Docker
         run: |
           docker build -t frontend-app ./frontend
-          docker run -d --rm -p 3000:3000 frontend-app
+          docker run -d --rm -p 5001:3000 frontend-app
       #     yarn start  # Replace with npm start if using npm
