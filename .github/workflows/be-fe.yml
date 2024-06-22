@@ -22,7 +22,11 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r backend/requirements.txt
-
+      - name: Create .env file for backend
+        run: |
+          echo "LISTEN_PORT_BE=${{ secrets.LISTEN_PORT_BE }}" > backend/.env
+          echo "LISTEN_HOST_BE=${{ secrets.LISTEN_HOST_BE }}" >> backend/.env
+          echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" >> backend/.env
       - name: Run backend tests  # Replace with your test command if applicable
         run: |
           # Command to run backend tests, if applicable
@@ -40,7 +44,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+      - name: Create .env file for frontend
+        run: |
+          echo "BACKEND_ENDPOINT=${{ secrets.BACKEND_ENDPOINT }}" > frontend/.env
       - name: Build and start Frontend in Docker
         run: |
           docker build -t frontend-app ./frontend
