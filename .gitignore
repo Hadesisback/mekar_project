@@ -1,0 +1,11 @@
+# Exclude all .env files in subfolders
+**/.env
+
+# Exclude __pycache__ folders
+__pycache__/
+
+# Exclude venv folders
+venv/
+
+# Include .env.example files
+!.env.example
