@@ -79,9 +79,6 @@ function InputForm() {
               <FormControl>
                 <Input placeholder="test@test.com" {...field} />
               </FormControl>
-              {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
