@@ -9,14 +9,17 @@ WORKDIR /app
 # Copy package.json and yarn.lock to install dependencies
 COPY package.json .
 
-# Install dependencies
-RUN npm install  # or npm install if using npm
-
-# Copy the entire Next.js app
 COPY . .
+# Install dependencies
+
+RUN npm install -g pnpm 
+
+RUN pnpm install
+
+RUN pnpm build
 
 # Expose the port on which Next.js runs (usually 3000 by default)
 EXPOSE 5001
 
 # Command to run Next.js in production mode
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
