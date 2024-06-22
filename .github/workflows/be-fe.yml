@@ -27,7 +27,7 @@ jobs:
         run: |
           # Command to run backend tests, if applicable
           # pytest or any other test command
-          python backend_test.py
+          python backend/backend_test.py
 
       - name: Build and start Flask API in Docker
         run: |
