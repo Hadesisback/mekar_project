@@ -16,7 +16,7 @@ RUN npm install  # or npm install if using npm
 COPY . .
 
 # Expose the port on which Next.js runs (usually 3000 by default)
-EXPOSE 3000
+EXPOSE 5001
 
 # Command to run Next.js in production mode
 CMD ["npm", "start"]
