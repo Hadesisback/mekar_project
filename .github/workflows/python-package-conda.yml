@@ -1,0 +1,48 @@
+name: Backend and Frontend CI/CD
+
+on:
+  push:
+    branches:
+      - main  # Replace with your main branch name
+
+jobs:
+  backend:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install backend dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r backend/requirements.txt
+
+      - name: Run backend tests  # Replace with your test command if applicable
+        run: |
+          # Command to run backend tests, if applicable
+          # pytest or any other test command
+          python backend_test.py
+
+      - name: Build and start Flask API in Docker
+        run: |
+          docker build -t backend-app ./backend
+          docker run -d --rm -p 5000:5000 backend-app
+
+  frontend:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and start Frontend in Docker
+        run: |
+          docker build -t frontend-app ./frontend
+          docker run -d --rm -p 3000:3000 frontend-app
+      #     yarn start  # Replace with npm start if using npm
