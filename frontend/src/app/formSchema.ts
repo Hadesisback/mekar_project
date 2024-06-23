@@ -1,14 +1,20 @@
 import { z } from 'zod';
-import { format } from "date-fns";
+import { format } from 'date-fns';
 
 const validateNIKanddate_of_birth = (nik: string, date_of_birth: Date) => {
-    const date_of_birthString = format(date_of_birth, "ddMMyy")
-    return nik.slice(6, 12) === date_of_birthString
-  }
+  const date_of_birthString = format(date_of_birth, 'ddMMyy');
+  return nik.slice(6, 12) === date_of_birthString;
+};
+
 export const FormSchema = z.object({
-  name: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
+  name: z
+    .string()
+    .min(2, {
+      message: 'Username must be at least 2 characters.',
+    })
+    .regex(/^[a-zA-Z\s]*$/, {
+      message: 'Name must only contain letters and spaces.',
+    }),
   date_of_birth: z.date({ required_error: 'A date of birth is required' }),
   email: z.string().email(),
   identity_number: z
