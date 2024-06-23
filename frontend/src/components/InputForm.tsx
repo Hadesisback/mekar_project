@@ -39,7 +39,7 @@ function InputForm() {
 
   return (<LocalizationProvider dateAdapter={AdapterDateFns}>  
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-10 mx-auto max-w-md flex flex-col items-center">
         <FormField
           control={form.control}
           name="name"
