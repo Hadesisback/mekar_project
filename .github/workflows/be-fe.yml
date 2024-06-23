@@ -3,7 +3,7 @@ name: BE and FE Docker CI/CD
 on:
   push:
     branches:
-      - main  # Replace with your main branch name
+      - main
 
 jobs:
   backend:
@@ -22,21 +22,28 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r backend/requirements.txt
+
       - name: Create .env file for backend
         run: |
           echo "LISTEN_PORT_BE=${{ secrets.LISTEN_PORT_BE }}" > backend/.env
           echo "LISTEN_HOST_BE=${{ secrets.LISTEN_HOST_BE }}" >> backend/.env
           echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" >> backend/.env
-      - name: Run backend tests  # Replace with your test command if applicable
+
+      - name: Run backend tests
         run: |
           # Command to run backend tests, if applicable
           # pytest or any other test command
           python backend/backend_test.py
 
+      - name: Stop and remove previous backend container
+        run: |
+          docker stop backend-app || true
+          docker rm backend-app || true
+
       - name: Build and start Flask API in Docker
         run: |
           docker build -t backend-app ./backend
-          docker run -d --rm -p 5000:5000 backend-app
+          docker run -d --name backend-app --rm -p 5000:5000 backend-app
 
   frontend:
     runs-on: self-hosted
@@ -44,11 +51,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Create .env file for frontend
         run: |
           echo "BACKEND_ENDPOINT=${{ secrets.BACKEND_ENDPOINT }}" > frontend/.env
+
+      - name: Stop and remove previous frontend container
+        run: |
+          docker stop frontend-app || true
+          docker rm frontend-app || true
+
       - name: Build and start Frontend in Docker
         run: |
           docker build -t frontend-app ./frontend
-          docker run -d --rm -p 5001:5001 frontend-app
-      #     yarn start  # Replace with npm start if using npm
+          docker run -d --name frontend-app --rm -p 5001:5001 frontend-app
