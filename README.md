@@ -18,7 +18,11 @@ Edit .env files di file backend dan frontend untuk mengubah endpoint, listen hos
 ## Unit Testing
 - Module: Flask_Testing
 - File: backend_test.py
-
+    - Duplicate Entry
+    - NIK dan Date of Birth mismatch
+    - Invalid Request
+    - Invalid Date of Birth
+    - NIK length mismatch
 ## Docker
 Dockerfile berada di folder backend dan frontend
 
