@@ -4,8 +4,8 @@ from pymongo import MongoClient
 from flask_cors import CORS, cross_origin 
 from dotenv import load_dotenv
 from tabulate import tabulate
-import re
 
+# Load environment variables from .env file
 load_dotenv()
 
 def run_app():
@@ -28,19 +28,9 @@ def run_app():
         date_of_birth = data.get('date_of_birth')
         email = data.get('email')
 
-        if not all([name, identity_number, date_of_birth, email]):
-            return jsonify({"error": "All fields must be provided."}), 400
-
-        if not name.isalpha():
-            return jsonify({"error": "Name must contain only alphabets."}), 400
-
+        
         if not identity_number.isdigit() or len(identity_number) != 16:
             return jsonify({"error": "Identity number must be 16 digits and all numerical."}), 400
-
-        # Check if date of birth is in the format YYYY-MM-DD
-        dob_pattern = re.compile(r'^\d{4}-\d{2}-\d{2}$')
-        if not dob_pattern.match(date_of_birth):
-            return jsonify({"error": "Date of birth must be in the format YYYY-MM-DD."}), 400
         
         # Check if the 7th to 12th digits of identity number match the date of birth
         id_date_part = identity_number[6:12]
@@ -50,6 +40,7 @@ def run_app():
         if id_date_part != dob_format:
             return jsonify({"error": "Identity number does not match the date of birth."}), 400
         
+        # Check for duplicate entries in the database
         existing_entry = collection.find_one({
             "name": name,
             "identity_number": identity_number,
@@ -60,6 +51,7 @@ def run_app():
         if existing_entry:
             return jsonify({"message": "Duplicate entry detected."}), 200
         
+        # Insert data into the database
         collection.insert_one({
             "name": name,
             "identity_number": identity_number,
@@ -87,7 +79,6 @@ def run_app():
     
 
     return app
-
 if __name__ == '__main__':
     app = run_app()
     listen_host = os.getenv('LISTEN_HOST', '0.0.0.0')
