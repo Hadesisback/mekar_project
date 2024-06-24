@@ -7,7 +7,7 @@ Berikut hasil pengerjaan test fullstack
 
 ## Documentation
 
-- FrontEnd: NextJS
+- Frontend: NextJS
 - Backend: Python Flask
 - UI Framework: Shadcn, AceternityUI, MUI
 - DB: MongoDB
